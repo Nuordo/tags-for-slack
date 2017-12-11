@@ -1,5 +1,5 @@
 {
-  "name": "whois-slack-bot",
+  "name": "slack-a-tag",
   "description": "A Serverless.js Slack App Template",
   "version": "1.0.0",
   "author": "John Agan <john@slack-corp.com>",
@@ -15,6 +15,12 @@
     "template",
     "serverless"
   ],
+  "scripts": {
+    "eslint": "./node_modules/.bin/eslint src/**/*.js --fix",
+    "build": "rm -fr build && babel ./src -d build",
+    "deploy": "npm run build && serverless deploy",
+    "codedeploy": "npm run build && serverless deploy function -f slack"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/johnagan/serverless-slack-app.git"
@@ -23,6 +29,11 @@
     "url": "https://github.com/johnagan/serverless-slack-app/issues"
   },
   "dependencies": {
-    "serverless-slack": "^1.0.25"
+    "serverless-slack": "^1.0.25",
+    "babel-cli": "^6.26.0",
+    "eslint": "^4.8.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-latest": "^6.24.1",
+    "regenerator-runtime": "^0.11.0"
   }
 }

@@ -1,5 +1,3 @@
 node_modules
 build
 .serverless
-serverless.env.yml
-.DS_Store

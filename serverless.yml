@@ -1,38 +1,7 @@
-service: whois-slack-bot
-
-custom:
-  # Log all events to CloudWatch
-  slack_enable_logging: true
-
-  # The dynamodb table to store OAuth access data
-  slack_table_name: Teams
-
-  # The path used to post Slack events to
-  slack_event_path: slack
-
-  # The path used to install the Slack App
-  slack_install_path: slack
-
-  # The path to redirect to after an install
-  slack_install_redirect: https://slack.com
-
-  # Verification token
-  slack_verification_token: "xxxxxxxxxxxxx"
-
-  # Space delimited scopes
-  slack_client_scopes: "bot commands incoming-webhook"
-
-  # Client ID - quotes required
-  slack_client_id: "xxxxxxxxxx.xxxxxxxxxxxx"
-
-  # Client Secret - quotes required
-  slack_client_secret: "xxxxxxxxxxxxxxxxxx"
-
-
+service: slack-a-tag
 provider:
   name: aws
-  runtime: nodejs4.3
-  profile: serverless
+  runtime: nodejs6.10
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -45,22 +14,21 @@ provider:
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:us-east-1:*:*"
   environment:
-    TABLE_NAME: ${self:custom.slack_table_name}
-    CLIENT_ID: ${self:custom.slack_client_id}
-    CLIENT_SECRET: ${self:custom.slack_client_secret}
-    CLIENT_SCOPES: ${self:custom.slack_client_scopes}
-    INSTALL_REDIRECT: ${self:custom.slack_install_redirect}
-    VERIFICATION_TOKEN: ${self:custom.slack_verification_token}
-    ENABLE_LOGGING: ${self:custom.slack_enable_logging}
-
+    TABLE_NAME: ${file(./serverless.env.yml):dev.SLACK_TABLE_NAME}
+    CLIENT_ID: ${file(./serverless.env.yml):dev.SLACK_CLIENT_ID}
+    CLIENT_SECRET: ${file(./serverless.env.yml):dev.SLACK_CLIENT_SECRET}
+    CLIENT_SCOPES: ${file(./serverless.env.yml):dev.SLACK_CLIENT_SCOPES}
+    INSTALL_REDIRECT: ${file(./serverless.env.yml):dev.SLACK_INSTALL_REDIRECT}
+    VERIFICATION_TOKEN: ${file(./serverless.env.yml):dev.SLACK_VERIFICATION_TOKEN}
+    ENABLE_LOGGING: ${file(./serverless.env.yml):dev.SLACK_ENABLE_LOGGING}
 
 functions:
   slack:
-    handler: src/index.handler
+    handler: build/index.handler
     events:
       ## Slash Commands, Events, and Interactive Messages
       - http:
-          path: ${self:custom.slack_event_path}
+          path: ${file(./serverless.env.yml):dev.SLACK_EVENT_PATH}
           method: post
           integration: lambda
           response:
@@ -68,7 +36,7 @@ functions:
 
       ## OAuth Routes
       - http:
-          path: ${self:custom.slack_install_path}
+          path: ${file(./serverless.env.yml):dev.SLACK_EVENT_PATH}
           method: get
           integration: lambda
           request:
@@ -104,4 +72,37 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:custom.slack_table_name}
+        TableName: ${file(./serverless.env.yml):dev.SLACK_TABLE_NAME}
+    TagsDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: userId
+            AttributeType: S
+          -
+            AttributeName: tag
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: userId
+            KeyType: HASH
+          - AttributeName: tag
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        GlobalSecondaryIndexes:
+          - IndexName: UserTagsIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: tag
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        TableName: ${file(./serverless.env.yml):dev.TAGS_TABLE_NAME}
