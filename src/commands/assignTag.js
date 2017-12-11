@@ -11,6 +11,7 @@ class AssignTagCommand {
   init () {
     this.slack.on('/tag', async (msg, bot) => {
       try {
+        console.warn(msg, bot);
         const { users, tag } = await extractMentionedUsersAndTag(msg.text)
 
         if (!users.length || !tag) {
@@ -21,7 +22,9 @@ class AssignTagCommand {
         for (let i = 0; i < users.length; i += 1) {
           await this.tagsService.put({
             userId: users[i].userId,
-            tag: tag.toLowerCase()
+            tag: tag.toLowerCase(),
+            teamId: msg.team_id,
+            userName: users[i].userName,
           })
         }
 

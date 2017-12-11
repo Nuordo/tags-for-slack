@@ -4,16 +4,28 @@ class DynamoDBService {
     this.tableName = tableName
   }
 
-  get (userId) {
+  getByUserId (teamId, userId) {
     const params = {
       TableName: this.tableName,
-      IndexName: 'UserTagsIndex',
-      KeyConditionExpression: 'userId = :userId',
-      ExpressionAttributeValues: { ':userId': userId }
+      FilterExpression: 'userId = :userId and teamId = :teamId',
+      ExpressionAttributeValues: { ':userId': userId, ':teamId': teamId }
     }
 
     return this.db
-      .query(params)
+      .scan(params)
+      .promise()
+      .then(data => data.Items)
+  }
+
+  getByTag (teamId, tag) {
+    const params = {
+      TableName: this.tableName,
+      FilterExpression: 'tag = :tag and teamId = :teamId',
+      ExpressionAttributeValues: { ':tag': tag, ':teamId': teamId }
+    }
+
+    return this.db
+      .scan(params)
       .promise()
       .then(data => data.Items)
   }

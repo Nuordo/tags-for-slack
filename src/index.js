@@ -8,12 +8,14 @@ const DynamoDBService = require('./services/dynamodb');
 const TagsService = new DynamoDBService(DocumentDB, 'slack-a-tag-tags');
 
 const AssignTagCommand = require('./commands/assignTag');
-const ListTagsCommand = require('./commands/listTags');
+const ListByTagCommand = require('./commands/listByTag');
+const ListByUserCommand = require('./commands/listByUser');
 
 exports.handler = slack.handler.bind(slack);
 
 new AssignTagCommand(slack, TagsService);
-new ListTagsCommand(slack, TagsService);
+new ListByTagCommand(slack, TagsService);
+new ListByUserCommand(slack, TagsService);
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);

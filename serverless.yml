@@ -88,21 +88,10 @@ resources:
           -
             AttributeName: userId
             KeyType: HASH
-          - AttributeName: tag
+          -
+            AttributeName: tag
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        GlobalSecondaryIndexes:
-          - IndexName: UserTagsIndex
-            KeySchema:
-              - AttributeName: userId
-                KeyType: HASH
-              - AttributeName: tag
-                KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
-            ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
         TableName: ${file(./serverless.env.yml):dev.TAGS_TABLE_NAME}
