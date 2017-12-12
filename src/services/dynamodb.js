@@ -43,13 +43,15 @@ class DynamoDBService {
     return this.db.put(params).promise()
   }
 
-  delete (userId, tag) {
+  delete (teamId, userId, tag) {
     const params = {
       TableName: this.tableName,
       Key: {
         userId,
         tag
-      }
+      },
+      ConditionExpression: 'teamId = :teamId',
+      ExpressionAttributeValues: { ':teamId': teamId }
     }
 
     return this.db.delete(params).promise()

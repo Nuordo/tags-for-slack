@@ -10,12 +10,14 @@ const TagsService = new DynamoDBService(DocumentDB, 'slack-a-tag-tags');
 const AssignTagCommand = require('./commands/assignTag');
 const ListByTagCommand = require('./commands/listByTag');
 const ListByUserCommand = require('./commands/listByUser');
+const UntagCommand = require('./commands/untag');
 
 exports.handler = slack.handler.bind(slack);
 
 new AssignTagCommand(slack, TagsService);
 new ListByTagCommand(slack, TagsService);
 new ListByUserCommand(slack, TagsService);
+new UntagCommand(slack, TagsService);
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);

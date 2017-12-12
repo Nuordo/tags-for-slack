@@ -17,7 +17,7 @@ class ListByTagCommand {
         const data = await this.tagsService.getByTag(msg.team_id, msg.text.toLowerCase())
         const users = []
         data.forEach((row) => {
-          users.push(row.userName)
+          users.push(`@${row.userName}`)
         })
 
         bot.replyPrivate(`Tag "${msg.text.toLowerCase()}" is assigned to: ${users.join(', ')}`)
