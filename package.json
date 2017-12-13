@@ -2,8 +2,8 @@
   "name": "slack-a-tag",
   "description": "A Serverless.js Slack App Template",
   "version": "1.0.0",
-  "author": "John Agan <john@slack-corp.com>",
-  "homepage": "https://github.com/johnagan/serverless-slack-app",
+  "author": "Karol Sójko <karolsojko@gmail.com>",
+  "homepage": "https://github.com/Nuordo/slack-a-tag",
   "license": "MIT",
   "keywords": [
     "slack",
