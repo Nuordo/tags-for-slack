@@ -1,9 +1,9 @@
 {
-  "name": "slack-a-tag",
+  "name": "tags-for-slack",
   "description": "A Serverless.js Slack App Template",
   "version": "1.0.0",
   "author": "Karol Sójko <karolsojko@gmail.com>",
-  "homepage": "https://github.com/Nuordo/slack-a-tag",
+  "homepage": "https://github.com/Nuordo/tags-for-slack",
   "license": "MIT",
   "keywords": [
     "slack",

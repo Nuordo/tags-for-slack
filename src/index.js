@@ -5,7 +5,7 @@ const DocumentDB = new AWS.DynamoDB.DocumentClient();
 const slack = require('serverless-slack');
 const DynamoDBService = require('./services/dynamodb');
 
-const TagsService = new DynamoDBService(DocumentDB, 'slack-a-tag-tags');
+const TagsService = new DynamoDBService(DocumentDB, 'tags-for-slack-tags');
 
 const AssignTagCommand = require('./commands/assignTag');
 const ListByTagCommand = require('./commands/listByTag');
