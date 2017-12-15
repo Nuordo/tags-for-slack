@@ -4,6 +4,8 @@
 
 Tag slack users and list by tag
 
+![](images/screenshot.png)
+
 ## Tag your Slack users
 
 Tags For Slack is a simple set of slash commands that lets you tag people.
@@ -17,3 +19,7 @@ Available commands are:
 - `/untag @username tag`
 
 Give it a go and start tagging.
+
+## Support
+
+For issues and support please contact: <karolsojko@nuordo.com>
