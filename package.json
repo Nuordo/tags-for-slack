@@ -18,6 +18,7 @@
   "scripts": {
     "eslint": "./node_modules/.bin/eslint src/**/*.js --fix",
     "build": "rm -fr build && babel ./src -d build",
+    "test": "jest",
     "deploy": "npm run build && serverless deploy",
     "codedeploy": "npm run build && serverless deploy function -f slack"
   },
@@ -35,5 +36,8 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-latest": "^6.24.1",
     "regenerator-runtime": "^0.11.0"
+  },
+  "devDependencies": {
+    "jest": "^22.4.2"
   }
 }

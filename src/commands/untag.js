@@ -1,4 +1,4 @@
-const { extractMentionedUsersAndTag } = require('../utils/messageParser')
+const { extractMentionedUsersAndTags } = require('../utils/messageParser')
 
 class UntagCommand {
   constructor (slack, tagsService) {
@@ -11,21 +11,23 @@ class UntagCommand {
   init () {
     this.slack.on('/untag', async (msg, bot) => {
       try {
-        const { users, tag } = await extractMentionedUsersAndTag(msg.text)
+        const { users, tags } = await extractMentionedUsersAndTags(msg.text)
 
-        if (!users.length || !tag) {
-          bot.replyPrivate('Please provide users and tag.')
+        if (!users.length || !tags.length) {
+          bot.replyPrivate('Please provide users and tags.')
           return
         }
 
         for (let i = 0; i < users.length; i += 1) {
-          await this.tagsService.delete(msg.team_id, users[i].userId, tag.toLowerCase())
+          for (let j = 0; j < tags.length; j += 1) {
+            await this.tagsService.delete(msg.team_id, users[i].userId, tags[j].toLowerCase())
+          }
         }
 
-        bot.replyPrivate('User was untagged successfully.')
+        bot.replyPrivate('Users were untagged successfully.')
       } catch (error) {
         console.error(error)
-        bot.replyPrivate('Whoops! An Error occured! Most probably the user is not assigned with that tag.')
+        bot.replyPrivate('Whoops! An Error occured! Most probably one of the users is not assigned with one of the tags.')
       }
     })
   }
