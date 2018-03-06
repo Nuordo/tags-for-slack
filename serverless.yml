@@ -2,6 +2,7 @@ service: tags-for-slack
 provider:
   name: aws
   runtime: nodejs6.10
+  timeout: 15
   iamRoleStatements:
     - Effect: Allow
       Action:

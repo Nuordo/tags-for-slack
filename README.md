@@ -18,6 +18,10 @@ Available commands are:
 - `/list-by-user @username`
 - `/untag @username tag`
 
+You can also work with multiple tags (comma separated) and users:
+- `/tag @username1 @username2 tag1, tag2`
+- `/untag @username1 @username2 tag1, tag2`
+
 Give it a go and start tagging.
 
 ## Support

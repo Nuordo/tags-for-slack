@@ -9,13 +9,13 @@ const extractMentionedUser = text => {
   }
 }
 
-const extractMentionedUsersAndTag = text => {
+const extractMentionedUsersAndTags = text => {
   const usersRegex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>/g
   const usersMatch = text.match(usersRegex) || []
 
   const tagRegex = /<@[a-zA-Z0-9]+\|[a-z0-9._-]+>\s+([^>]*)$/
   const tagMatch = text.match(tagRegex)
-  const tag = tagMatch ? tagMatch[1] : null
+  const tags = tagMatch ? tagMatch[1].split(',').map(tag => (tag.replace(/ /g, ''))) : []
 
   const users = []
 
@@ -23,10 +23,10 @@ const extractMentionedUsersAndTag = text => {
     users.push(extractMentionedUser(usersMatch[i]))
   }
 
-  return { users, tag }
+  return { users, tags }
 }
 
 module.exports = {
   extractMentionedUser,
-  extractMentionedUsersAndTag
+  extractMentionedUsersAndTags
 }
