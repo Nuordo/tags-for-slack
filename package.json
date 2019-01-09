@@ -39,5 +39,9 @@
   },
   "devDependencies": {
     "jest": "^22.4.4"
+  },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost"
   }
 }
