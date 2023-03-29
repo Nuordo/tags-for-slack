@@ -2,6 +2,8 @@
 
 <a href="https://slack.com/oauth/authorize?client_id=5091317383.284036638726&scope=commands"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
 
+**NOTICE:** This repository and application is no longer maintained
+
 Tag slack users and list by tag
 
 ![](images/screenshot.png)
@@ -23,7 +25,3 @@ You can also work with multiple tags (comma separated) and users:
 - `/untag @username1 @username2 tag1, tag2`
 
 Give it a go and start tagging.
-
-## Support
-
-For issues and support please contact: <karolsojko@nuordo.com>
